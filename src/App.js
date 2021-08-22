@@ -7,6 +7,7 @@ import { SearchOutlined } from '@ant-design/icons';
 function App() {
   const [visibility, setVisibility] = React.useState(1);
   const [isDatepickerDisabled, setIsDatepickerDisabled] = React.useState(true);
+  const [data, setData] = React.useState('');
 
   const onChangeVisibility = e => {
     console.log('radio checked', e.target.value);
@@ -17,8 +18,16 @@ function App() {
     setIsDatepickerDisabled(e.target.checked)
   }
 
+  React.useEffect(() => {
+    (async function () {
+      const { text } = await( await fetch(`/api/generateid`)).json();
+      setData(text);
+    })();
+  }, []);
+
   return (
     <div className="App">
+      {data}
       <div className="center-wrapper">
         <Input size="large" placeholder="Paste long URL and shorten it!" prefix={<SearchOutlined />} />
         <div className="spacer"></div>
